@@ -1,0 +1,44 @@
+3325. Count Substrings With K-Frequency Characters I
+
+
+
+
+
+
+
+
+
+//QUESTION LNK: https://leetcode.com/problems/count-substrings-with-k-frequency-characters-i/description/
+
+TOPIC: SLIDING WINDOW AND HASHING
+
+
+CODE:
+
+
+class Solution {
+public:
+    int numberOfSubstrings(string s, int k) {
+        int left=0,right=0;
+        int lenOfInp=s.length();
+        unordered_map<char,int> freq;
+        freq[s[left]]++;
+        int count=0;
+
+        while(right<lenOfInp){
+            int  curCharFreq=freq[s[right]];
+
+            if(curCharFreq>=k){
+                count+=(lenOfInp-right);
+                freq[s[left]]--;
+                left++;  
+            }
+            else{
+                right++;
+                freq[s[right]]++;
+            }
+        }
+
+        return count;
+    }
+};
