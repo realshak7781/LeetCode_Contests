@@ -1,0 +1,51 @@
+3324. Find the Sequence of Strings Appeared on the Screen
+
+
+
+
+
+//QUESTION LNK: https://leetcode.com/problems/find-the-sequence-of-strings-appeared-on-the-screen/description/
+
+
+TOPIC: RECURSION
+
+
+CODE:
+
+
+class Solution {
+private:
+void solve(int index,string temp,string target,vector<string>&ans){
+    if(index==target.length()) return;
+
+    if(temp[temp.length()-1]==target[index]){
+        // match
+        temp+="a";
+        solve(index+1,temp,target,ans);
+        temp=temp.substr(0,temp.length()-1);
+    }
+    else{
+        char lastChar=temp[temp.length()-1];
+        if(lastChar=='z'){
+            temp[temp.length()-1]='a';
+        }
+        else{
+            temp[temp.length()-1]=lastChar+1;
+        }
+        solve(index,temp,target,ans);
+          temp[temp.length()-1]=lastChar;
+    }
+    ans.push_back(temp);
+}    
+public:
+    vector<string> stringSequence(string target) {
+        int index=0;
+        string temp="a";
+
+        vector<string> ans;
+        solve(index,temp,target,ans);
+
+        reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
