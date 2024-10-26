@@ -1,0 +1,54 @@
+5. Longest Palindromic Substring
+
+
+
+
+
+
+
+//QUESTION LNK: https://leetcode.com/problems/longest-palindromic-substring/
+
+
+TOPIC: MANACHERS ALGO
+
+
+CODE:
+
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        string t="#";
+        for(auto &c :s){
+            t+=c;
+            t+="#";
+        }
+
+        int n=t.length();
+        vector<int> p(n,0);
+        int center=0,right=0;
+        int maxLen=0,start=0;
+
+        for(int i=1;i<n;i++){
+            int mirror=2*center-i;
+
+            if(i<right){
+                p[i]=min(p[mirror],right-i);
+            }
+
+            while(i+p[i]+1 <n && i-p[i]-1>=0 && t[i+p[i]+1]==t[i-p[i]-1]){
+                p[i]++;
+            }
+
+            if(i+p[i]>right){
+                center=i;
+                right=i+p[i];
+            }
+
+            if(p[i]>maxLen){
+                maxLen=p[i];
+                start=(i-maxLen)/2;
+            }
+        }
+        return s.substr(start,maxLen);
+    }
+};
