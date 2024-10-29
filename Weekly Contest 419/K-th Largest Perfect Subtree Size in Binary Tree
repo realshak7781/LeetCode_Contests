@@ -1,0 +1,57 @@
+3319. K-th Largest Perfect Subtree Size in Binary Tree
+
+
+
+
+
+//QUESTION LNK: https://leetcode.com/problems/k-th-largest-perfect-subtree-size-in-binary-tree/
+
+
+TOPIC: BINARY TREE AND DFS
+
+
+
+CODE:
+
+
+
+class Solution {
+private:
+pair<bool,int> solve(TreeNode*root,priority_queue<int,vector<int>,greater<int>> &minHeap,int k){
+    if (!root) return {true, 0};
+
+        if (!root->left && !root->right) {  // Leaf node
+            if (minHeap.size() < k) {
+                minHeap.push(1);
+            } 
+            return {true, 1};  
+        }
+
+        auto leftAns = solve(root->left, minHeap, k);
+        auto rightAns = solve(root->right, minHeap, k);
+
+        bool isPerfect = leftAns.first && rightAns.first && (leftAns.second == rightAns.second);
+        int subtreeSize = 1 + leftAns.second + rightAns.second;
+
+        if (isPerfect) {
+            if (minHeap.size() < k) {
+                minHeap.push(subtreeSize); 
+            } else if (subtreeSize > minHeap.top()) {
+                minHeap.pop();
+                minHeap.push(subtreeSize);
+            }
+        }
+
+        return {isPerfect, subtreeSize};
+}
+public:
+    int kthLargestPerfectSubtree(TreeNode* root, int k) {
+        priority_queue<int,vector<int>,greater<int>> minHeap;
+
+        solve(root,minHeap,k);
+
+        if(minHeap.size()<k) return -1;
+
+        return minHeap.top();
+    }
+};
