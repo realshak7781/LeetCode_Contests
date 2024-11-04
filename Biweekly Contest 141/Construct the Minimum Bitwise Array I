@@ -1,0 +1,35 @@
+3315. Construct the Minimum Bitwise Array I
+
+
+
+
+
+
+//QUESTION LNK: https://leetcode.com/problems/construct-the-minimum-bitwise-array-i/
+
+
+TOPIC: BIT MANIPULATION
+
+
+CODE:
+
+
+class Solution {
+public:
+    vector<int> minBitwiseArray(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> ans(n,INT_MIN);
+
+        for(int i=0;i<n;i++){
+            for(int k=0;k<nums[i];k++){
+                if((k | (k+1)) == nums[i]){
+                    ans[i]=k;
+                    break;
+                }
+            }
+            if(ans[i]==INT_MIN) ans[i]=-1;
+            
+        }
+        return ans;
+    }
+};
