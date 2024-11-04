@@ -1,0 +1,49 @@
+3315. Construct the Minimum Bitwise Array II
+
+
+
+
+
+
+//QUESTION LNK: https://leetcode.com/problems/construct-the-minimum-bitwise-array-ii/
+
+
+TOPIC: BIT MANIPULATION
+
+
+CODE:
+
+
+class Solution {
+public:
+    vector<int> minBitwiseArray(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> ans(n);
+
+        // This question can be solved just by observation 
+        // convert all the nos to bits and observe that if you flip the bit at the x position you get your answer;
+
+        // lets find the x position
+        // start from the rightmost bit and go towards the leftmost bit the place you get the first  zero the one after that zero is the position x;
+
+        int last_bit_set=0;
+
+        for(int i=0;i<n;i++){
+            int val=nums[i];
+
+            if(val==2){
+                ans[i]=-1;
+                continue;
+            } 
+
+            for(int i=0;i<32;i++){
+                if(val &(1<<i)) last_bit_set=i;
+                else break;
+            }
+
+            ans[i]= val ^ (1<<last_bit_set);
+        }
+
+        return  ans;
+    }
+};
